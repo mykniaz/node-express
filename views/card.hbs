@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="col s12">
+		<h1>Card Page</h1>
+	</div>
+</div>
+<div class="row" id="card">
+	<div class="col s12">
+		{{#if courses.length}}
+			<table>
+				<thead>
+				<tr>
+					<th>Title</th>
+					<th>Amount</th>
+					<th>Price</th>
+					<th>Action</th>
+				</tr>
+				</thead>
+				<tbody>
+				{{#each courses}}
+					<tr>
+						<td>{{title}}</td>
+						<td class="j-count">{{count}}</td>
+						<td class="j-price">{{price}}</td>
+						<td>
+							<button class="btn btn-primary j-remove"
+											type="button"
+											data-id="{{id}}">
+								Remove
+							</button>
+						</td>
+					</tr>
+				{{/each}}
+				</tbody>
+			</table>
+			<p>
+				Total:
+				<strong>
+					<span class="j-price j-price-total">{{price}}</span>
+				</strong>
+			</p>
+		{{else}}
+			<p>Your card is empty</p>
+		{{/if}}
+	</div>
+</div>

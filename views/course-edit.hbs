@@ -1,0 +1,47 @@
+<div class="row">
+	<div class="col s12">
+		<h1>Edit Course</h1>
+	</div>
+</div>
+<div class="row">
+	<form action="/courses/edit?allow=true" method="post" class="col s12">
+		<input type="hidden" name="id" value="{{course.id}}">
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="title"
+							 name="title"
+							 type="text"
+							 class="validate"
+							 value="{{course.title}}"
+							 required>
+				<label for="title">Title*</label>
+				<span class="helper-text" data-error="Title is required"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="price"
+							 name="price"
+							 type="number"
+							 class="validate"
+							 value="{{course.price}}"
+							 required>
+				<label for="price">Price*</label>
+				<span class="helper-text" data-error="Price is required"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="img"
+							 name="img"
+							 type="text"
+							 class="validate"
+							 value="{{course.img}}"
+							 required>
+				<label for="img">Image url</label>
+				<span class="helper-text" data-error="Image is required"></span>
+			</div>
+		</div>
+		<button class="btn btn-primary" type="submit">Submit</button>
+	</form>
+</div>
