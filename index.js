@@ -42,14 +42,21 @@ const CONNECTION_STR = `mongodb+srv://${DB_USR}:${DB_PWD}@cluster0-qajvx.mongodb
 
 async function connect(str) {
   try {
-    await mongoose.connect(str, {useNewUrlParser: true});
+    await mongoose.connect(str, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
   } catch (e) {
     throw e;
   }
 }
 
-connect(CONNECTION_STR).then(() => {
-  app.listen(PORT, () => {
-    console.info(`Server started on port http://localhost:${PORT}`)
+connect(CONNECTION_STR)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.info(`Server started on port http://localhost:${PORT}`)
+    });
+  })
+  .catch(err => {
+    console.log(`DB Connection Error: ${err.message}`);
   });
-});
