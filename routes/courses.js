@@ -1,11 +1,12 @@
 import {Router} from 'express';
+import {ObjectId} from 'mongoose'
 
-import Course from "../models/course";
+import CourseModel from "../models/course";
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const courses = await Course.find()
+  const courses = await CourseModel.find();
 
 
   res.render('courses',{
@@ -22,7 +23,7 @@ router.get('/:id/edit', async (req, res) => {
     return;
   }
 
-  const {_id, title, price, img} = await Course.findById(req.params.id);
+  const {_id, title, price, img} = await CourseModel.findById(req.params.id);
 
   res.render('course-edit',{
     title: `Edit ${title}`,
@@ -40,13 +41,29 @@ router.post('/edit', async (req, res) => {
 
   const {id, ...rest} = req.body;
 
-  await Course.findByIdAndUpdate(id, rest);
+  await CourseModel.findByIdAndUpdate(id, rest);
 
   res.redirect(`/courses/${id}`);
 });
 
+router.post('/remove', async (req, res) => {
+  if (!req.query.allow) {
+    res.redirect('/');
+
+    return;
+  }
+
+  try {
+    await CourseModel.deleteOne({ _id: req.body.id});
+  } catch (e) {
+    console.error(e)
+  }
+
+  res.redirect(`/courses`);
+});
+
 router.get('/:id', async (req, res) => {
-  const {_id, title, price, img} = await Course.findById(req.params.id);
+  const {_id, title, price, img} = await CourseModel.findById(req.params.id);
 
   res.render('course',{
     title: 'Course',

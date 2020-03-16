@@ -6,7 +6,6 @@ class MoneyFormatter {
   run() {
 
     Array.from(document.getElementsByClassName(this.moneyBlockClass)).forEach(node => {
-      console.log(node)
       node.textContent = new Intl.NumberFormat('en-EN', {
         currency: 'USD',
         style: 'currency',
@@ -41,8 +40,8 @@ class CardTable {
               style: 'currency',
             }).format(card.price);
 
-            const $tr = target.closest('tr')
-            const $count = $tr.querySelector('.j-count')
+            const $tr = target.closest('tr');
+            const $count = $tr.querySelector('.j-count');
 
             if ($count.textContent === '1') {
               $tr.remove();

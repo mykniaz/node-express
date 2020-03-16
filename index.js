@@ -45,6 +45,7 @@ async function connect(str) {
     await mongoose.connect(str, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
+      useFindAndModify: false,
     });
   } catch (e) {
     throw e;

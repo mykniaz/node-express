@@ -11,7 +11,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  // const course = new Course(req.body.title, req.body.price, req.body.img);
   const {title, price, img} = req.body;
   const course = new Course({
     title,
