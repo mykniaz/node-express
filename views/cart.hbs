@@ -1,9 +1,9 @@
 <div class="row">
 	<div class="col s12">
-		<h1>Card Page</h1>
+		<h1>Cart Page</h1>
 	</div>
 </div>
-<div class="row" id="card">
+<div class="row" id="cart">
 	<div class="col s12">
 		{{#if courses.length}}
 			<table>
@@ -35,11 +35,11 @@
 			<p>
 				Total:
 				<strong>
-					<span class="j-price j-price-total">{{price}}</span>
+					<span class="j-price j-price-total">{{totalPrice}}</span>
 				</strong>
 			</p>
 		{{else}}
-			<p>Your card is empty</p>
+			<p>Your cart is empty</p>
 		{{/if}}
 	</div>
 </div>

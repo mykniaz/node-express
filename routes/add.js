@@ -12,10 +12,14 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
   const {title, price, img} = req.body;
+
+  console.log(req.user);
+
   const course = new Course({
     title,
     price,
-    img
+    img,
+    userId: req.user._id,
   });
 
   try {

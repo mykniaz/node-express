@@ -7,7 +7,10 @@ import path from "path";
 import homeRoutes from './routes/home';
 import addRoutes from './routes/add';
 import coursesRoutes from'./routes/courses';
-import cardRoutes from'./routes/card';
+import cartRoutes from'./routes/cart';
+
+// Models
+import User from './models/user';
 
 const app = express();
 
@@ -29,10 +32,24 @@ app.use(express.urlencoded({
   extended: true,
 }));
 
+app.use(async (req, res, next) => {
+  let  user;
+
+  try {
+    user = await User.findById('5e6f6746865fe338df4a195f');
+  } catch (e) {
+    console.error(e);
+  }
+
+  req.user = user;
+
+  next();
+});
+
 app.use('/', homeRoutes);
 app.use('/add', addRoutes);
 app.use('/courses', coursesRoutes);
-app.use('/card', cardRoutes);
+app.use('/cart', cartRoutes);
 
 const PORT = process.env.PORT || 3000;
 
@@ -50,6 +67,18 @@ async function connect(str) {
   } catch (e) {
     throw e;
   }
+
+  const candidate = await User.findOne();
+
+  if (!candidate) {
+    const user = new User({
+      email: 'admin@gmail.com',
+      name: 'admin',
+      cart: {items: []},
+    });
+
+    await user.save()
+  }
 }
 
 connect(CONNECTION_STR)
@@ -59,5 +88,5 @@ connect(CONNECTION_STR)
     });
   })
   .catch(err => {
-    console.log(`DB Connection Error: ${err.message}`);
+    console.error(`DB Connection Error: ${err.message}`);
   });

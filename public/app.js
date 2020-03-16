@@ -14,15 +14,15 @@ class MoneyFormatter {
   }
 }
 
-class CardTable {
-  constructor(cardId) {
-    this.cardId = cardId && 'card';
+class CartTable {
+  constructor(cartId) {
+    this.cartId = cartId && 'cart';
 
     this.initRemoveListener()
   }
 
   initRemoveListener() {
-    window.document.querySelectorAll('#' + this.cardId).forEach(element => {
+    window.document.querySelectorAll('#' + this.cartId).forEach(element => {
       element.addEventListener('click', ({target}) => {
         if(target.className.indexOf('j-remove') < 0) {
           return;
@@ -30,15 +30,15 @@ class CardTable {
 
         const courseId = target.getAttribute('data-id');
 
-        fetch('/card/remove/' + courseId, {
+        fetch('/cart/remove/' + courseId, {
           method: 'delete'
         })
           .then(res => res.json())
-          .then(card => {
-            target.closest('#card').querySelector('.j-price-total').textContent = new Intl.NumberFormat('en-EN', {
+          .then(cart => {
+            target.closest('#cart').querySelector('.j-price-total').textContent = new Intl.NumberFormat('en-EN', {
               currency: 'EUR',
               style: 'currency',
-            }).format(card.price);
+            }).format(cart.price);
 
             const $tr = target.closest('tr');
             const $count = $tr.querySelector('.j-count');
@@ -61,7 +61,7 @@ class App {
 
   init () {
     new MoneyFormatter('j-price').run();
-    new CardTable('card');
+    new CartTable('cart');
   }
 }
 
