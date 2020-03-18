@@ -38,7 +38,7 @@ class CartTable {
             target.closest('#cart').querySelector('.j-price-total').textContent = new Intl.NumberFormat('en-EN', {
               currency: 'EUR',
               style: 'currency',
-            }).format(cart.price);
+            }).format(cart.totalPrice);
 
             const $tr = target.closest('tr');
             const $count = $tr.querySelector('.j-count');
