@@ -49,7 +49,7 @@ userSchema.methods.addToCart = function (course) {
 };
 
 userSchema.methods.removeFromCart = function (id) {
-  const items = [...this.cart.items];
+  let items = [...this.cart.items];
 
   const index = items.findIndex(item => {
     return item.courseId.toString() === id;
@@ -57,11 +57,11 @@ userSchema.methods.removeFromCart = function (id) {
 
   if (items[index].count > 1) {
     items[index].count = items[index].count - 1;
-
-    this.cart = {items}
   } else {
-    this.cart.items = items.filter((item) => item.courseId.toString() !== id);
+    items = items.filter((item) => item.courseId.toString() !== id);
   }
+
+  this.cart = {items};
 
   return this.save();
 };
