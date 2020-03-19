@@ -63,12 +63,12 @@ router.post('/remove', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const {_id, title, price, img} = await CourseModel.findById(req.params.id);
+  const {id, title, price, img} = await CourseModel.findById(req.params.id);
 
   res.render('course',{
     title: 'Course',
     isCourses: true,
-    course: {id: _id, title, price, img},
+    course: {id, title, price, img},
   });
 });
 

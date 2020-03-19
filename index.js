@@ -8,6 +8,7 @@ import homeRoutes from './routes/home';
 import addRoutes from './routes/add';
 import coursesRoutes from'./routes/courses';
 import cartRoutes from'./routes/cart';
+import ordersRoutes from'./routes/orders';
 
 // Models
 import User from './models/user';
@@ -50,6 +51,7 @@ app.use('/', homeRoutes);
 app.use('/add', addRoutes);
 app.use('/courses', coursesRoutes);
 app.use('/cart', cartRoutes);
+app.use('/orders', ordersRoutes);
 
 const PORT = process.env.PORT || 3000;
 
