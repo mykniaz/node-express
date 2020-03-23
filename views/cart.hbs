@@ -38,6 +38,9 @@
 					<span class="j-price j-price-total">{{totalPrice}}</span>
 				</strong>
 			</p>
+			<form action="/orders" method="post">
+				<button type="submit">Add Order</button>
+			</form>
 		{{else}}
 			<p>Your cart is empty</p>
 		{{/if}}

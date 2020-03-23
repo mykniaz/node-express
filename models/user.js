@@ -25,13 +25,6 @@ const userSchema = new Schema({
       },
     ],
   },
-  orders: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Orders',
-      required: true,
-    },
-  ],
 });
 
 userSchema.methods.addToCart = function (course) {
@@ -69,6 +62,12 @@ userSchema.methods.removeFromCart = function (id) {
   }
 
   this.cart = {items};
+
+  return this.save();
+};
+
+userSchema.methods.clearCart = function () {
+  this.cart = {items: []};
 
   return this.save();
 };

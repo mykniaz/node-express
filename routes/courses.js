@@ -1,5 +1,4 @@
 import {Router} from 'express';
-import {ObjectId} from 'mongoose'
 
 import CourseModel from "../models/course";
 
