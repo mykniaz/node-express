@@ -7,29 +7,21 @@
 	{{#each orders}}
 		<div class="row">
 			<div class="col s12">
-				<h5 class="h5">Order {{id}}</h5>
+				<h5 class="h5">{{userName}}`s order</h5>
 				<table>
 					<thead>
 					<tr>
 						<th>Title</th>
 						<th>Amount</th>
 						<th>Price</th>
-						<th>Action</th>
 					</tr>
 					</thead>
 					<tbody>
 					{{#each courses}}
 						<tr>
 							<td>{{title}}</td>
-							<td class="j-count">{{count}}</td>
+							<td>{{count}}</td>
 							<td class="j-price">{{price}}</td>
-							<td>
-								<button class="btn btn-primary j-remove"
-												type="button"
-												data-id="{{id}}">
-									Remove
-								</button>
-							</td>
 						</tr>
 					{{/each}}
 					</tbody>
@@ -37,7 +29,7 @@
 				<p>
 					Total:
 					<strong>
-						<span class="j-price j-price-total">{{totalPrice}}</span>
+						<span class="j-price">{{totalPrice}}</span>
 					</strong>
 				</p>
 			</div>

@@ -22,16 +22,20 @@ router.get('/', async (req, res) => {
     const orders = await OrderModel
       .find({
         userId: req.user._id,
-      }).populate('courses.courseId').exec();
+      }).populate('courses.courseId').populate('userId').exec();
 
     res.render('orders',{
       title: 'Orders',
       isOrders: true,
-      orders: orders.map(({courses, _id}) => {
+      orders: orders.map((order) => {
+        const {courses, userId, _id} = order;
         const formattedCourses = mapCourses(courses);
+
+        console.log(order)
 
         return {
           id: _id,
+          userName: userId.name,
           totalPrice: computePrice(formattedCourses),
           courses: formattedCourses,
         }

@@ -49,6 +49,8 @@ router.delete('/remove/:id', async (req, res) => {
 router.post('/add', async (req, res) => {
   const course = await Course.findById(req.body.id);
 
+  console.log(req.user)
+
   await req.user.addToCart(course);
 
   res.redirect('/courses');
