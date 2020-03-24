@@ -4,14 +4,15 @@ import ExpressHandlebars from 'express-handlebars';
 import path from "path";
 
 // Routes
-import homeRoutes from './routes/home';
-import addRoutes from './routes/add';
-import coursesRoutes from'./routes/courses';
-import cartRoutes from'./routes/cart';
-import ordersRoutes from'./routes/orders';
+import homeRoutes from './routes/home-router';
+import authRouter from './routes/auth-router';
+import addRoutes from './routes/add-router';
+import coursesRoutes from'./routes/courses-router';
+import cartRoutes from'./routes/cart-router';
+import ordersRoutes from'./routes/orders-router';
 
 // Models
-import User from './models/user';
+import User from './models/user-model';
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use(async (req, res, next) => {
 });
 
 app.use('/', homeRoutes);
+app.use('/auth', authRouter);
 app.use('/add', addRoutes);
 app.use('/courses', coursesRoutes);
 app.use('/cart', cartRoutes);

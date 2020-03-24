@@ -14,6 +14,16 @@ class MoneyFormatter {
   }
 }
 
+class Tabs {
+  constructor(tabsBlockClass) {
+    this.tabsBlock = window.document.querySelectorAll('.' + (tabsBlockClass && 'tabs'));
+
+    this.tabsBlock.forEach((element) => {
+      M.Tabs.init(element);
+    })
+  }
+}
+
 class CartTable {
   constructor(cartId) {
     this.cartId = cartId && 'cart';
@@ -62,6 +72,7 @@ class App {
   init () {
     new MoneyFormatter('j-price').run();
     new CartTable('cart');
+    new Tabs('tabs');
   }
 }
 

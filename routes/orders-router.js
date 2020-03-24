@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import OrderModel from '../models/order'
+import Order from '../models/order-model'
 
 const router = Router();
 
@@ -19,7 +19,7 @@ const computePrice = (courses) => {
 
 router.get('/', async (req, res) => {
   try {
-    const orders = await OrderModel
+    const orders = await Order
       .find({
         userId: req.user._id,
       }).populate('courses.courseId').populate('userId').exec();
@@ -30,8 +30,6 @@ router.get('/', async (req, res) => {
       orders: orders.map((order) => {
         const {courses, userId, _id} = order;
         const formattedCourses = mapCourses(courses);
-
-        console.log(order)
 
         return {
           id: _id,
@@ -57,7 +55,7 @@ router.post('/', async (req, res) => {
       courseId: item.courseId,
     }));
 
-    const order = new OrderModel({
+    const order = new Order({
       userId: req.user,
       courses,
     });

@@ -1,0 +1,67 @@
+<form class="col s12"
+			action="/auth/register"
+			method="post">
+	<div class="row">
+		<div class="input-field col s6">
+			<input id="reg_first_name"
+						 type="text"
+						 class="validate"
+						 name="firstName"
+						 required>
+			<label for="reg_first_name">
+				First Name
+			</label>
+		</div>
+		<div class="input-field col s6">
+			<input id="reg_last_name"
+						 type="text"
+						 class="validate"
+						 name="lastName"
+						 required>
+			<label for="reg_last_name">
+				Last Name
+			</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="input-field col s12">
+			<input id="reg_email"
+						 type="email"
+						 class="validate"
+						 name="email">
+			<label for="reg_email">
+				Email
+			</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="input-field col s12">
+			<input id="reg_password"
+						 type="password"
+						 class="validate"
+						 name="password"
+						 required>
+			<label for="reg_password">
+				Password
+			</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="input-field col s12">
+			<input id="reg_password"
+						 type="password"
+						 class="validate"
+						 name="checkPassword"
+						 required>
+			<label for="reg_password">
+				Check password
+			</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="btn-block col s12">
+			<button class="btn" type="submit">Submit</button>
+			<button class="btn" type="reset">Reset Form</button>
+		</div>
+	</div>
+</form>

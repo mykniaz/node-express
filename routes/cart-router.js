@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import Course from "../models/course";
+import Course from "../models/course-model";
 
 const router = Router();
 
@@ -48,8 +48,6 @@ router.delete('/remove/:id', async (req, res) => {
 
 router.post('/add', async (req, res) => {
   const course = await Course.findById(req.body.id);
-
-  console.log(req.user)
 
   await req.user.addToCart(course);
 

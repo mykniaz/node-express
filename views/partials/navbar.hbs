@@ -2,6 +2,7 @@
 	<div class="nav-wrapper">
 		<a href="/" class="brand-logo">Courses App</a>
 		<ul id="nav-mobile" class="right hide-on-med-and-down">
+
 			{{#if isHome}}
 				<li class="active"><a href="/">Main</a></li>
 			{{else}}
@@ -31,6 +32,13 @@
 			{{else}}
 				<li><a href="/orders">Order</a></li>
 			{{/if}}
+
+			{{#if isAuth}}
+				<li class="active"><a href="/auth#login">Auth</a></li>
+			{{else}}
+				<li><a href="/auth#login">Auth</a></li>
+			{{/if}}
+
 		</ul>
 	</div>
 </nav>

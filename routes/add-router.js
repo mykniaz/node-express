@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Course from '../models/course';
+import Course from '../models/course-model';
 
 const router = Router();
 
@@ -12,9 +12,6 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
   const {title, price, img} = req.body;
-
-  console.log(req.user);
-
   const course = new Course({
     title,
     price,
