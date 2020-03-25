@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 router.post('/login', async (req, res) => {
   const formData = req.body;
 
-  console.log(formData)
+  console.log(formData);
 
 
   res.redirect('/')
@@ -22,9 +22,9 @@ router.post('/login', async (req, res) => {
 router.post('/register', async (req, res) => {
   const formData = req.body;
 
-  console.log(formData)
+  console.log(formData);
 
-  res.redirect('/')
+  res.redirect('/auth#login')
 });
 
 module.exports = router;
