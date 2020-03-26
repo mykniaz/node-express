@@ -1,4 +1,5 @@
 import * as path from 'path';
+import env from './config'
 // Express
 import * as express from 'express';
 import * as ExpressHandlebars from 'express-handlebars';
@@ -35,11 +36,9 @@ app.use(express.static(path.join(
   '../public'
 )));
 
-console.log(process.env.DB_USR)
-
 const store = new MongoDBStore({
   collection: 'sessions',
-  uri: process.env.DB_URI,
+  uri: env.DB_URI,
 });
 
 app.use(session({

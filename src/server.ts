@@ -1,10 +1,12 @@
+import env from './config'
+
 import app from './app';
 import * as mongoose from 'mongoose'
 
 // Models
 import User from './models/user-model';
 
-const PORT = process.env.PORT || 3000;
+const PORT = env.PORT || 3000;
 
 async function connect(str: string) {
   try {
@@ -30,9 +32,7 @@ async function connect(str: string) {
   }
 }
 
-console.log(process.env.DB_USR)
-
-connect(process.env.DB_URI)
+connect(env.DB_URI)
   .then(() => {
     app.listen(PORT, () => {
       console.info(`Server started on port http://localhost:${PORT}`)
