@@ -1,22 +1,22 @@
-import { Router } from 'express';
+import {Request, Response, Router} from 'express';
 import Course from '../models/course-model';
 
 const router = Router();
 
-router.get('/', (req, res) => {
+router.get('/', (req: Request, res: Response) => {
   res.render('add',{
     title: 'Add course',
     isAdd: true,
   });
 });
 
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
   const {title, price, img} = req.body;
   const course = new Course({
     title,
     price,
     img,
-    userId: req.user._id,
+    userId: req.session.user._id,
   });
 
   try {
@@ -29,4 +29,4 @@ router.post('/', async (req, res) => {
   res.redirect('/courses');
 });
 
-module.exports = router;
+export default router;

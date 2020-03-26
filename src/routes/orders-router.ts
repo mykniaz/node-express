@@ -1,9 +1,9 @@
-import {Router} from 'express';
+import {Router, Request, Response} from 'express';
 import Order from '../models/order-model'
 
 const router = Router();
 
-const mapCourses = (courses) => {
+const mapCourses = (courses: Array<any>) => {
   return courses.map(({count, courseId}) => ({
     count,
     id: courseId._id,
@@ -13,15 +13,15 @@ const mapCourses = (courses) => {
   }))
 };
 
-const computePrice = (courses) => {
-  return courses.reduce((acc, course) => acc + course.totalPrice, 0);
+const computePrice = (courses: any) => {
+  return courses.reduce((acc: number, course: any) => acc + course.totalPrice, 0);
 };
 
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
   try {
     const orders = await Order
       .find({
-        userId: req.user._id,
+        userId: req.session.user._id,
       }).populate('courses.courseId').populate('userId').exec();
 
     res.render('orders',{
@@ -44,19 +44,19 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
   try {
-    const user = await req.user
+    const user = await req.session.user
       .populate('cart.items.courseId')
       .execPopulate();
 
-    const courses = user.cart.items.map((item) => ({
+    const courses = user.cart.items.map((item: any) => ({
       count: item.count,
       courseId: item.courseId,
     }));
 
     const order = new Order({
-      userId: req.user,
+      userId: req.session.user,
       courses,
     });
 
@@ -72,4 +72,4 @@ router.post('/', async (req, res) => {
 });
 
 
-module.exports = router;
+export default router;
