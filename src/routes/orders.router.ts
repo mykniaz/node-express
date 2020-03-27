@@ -1,5 +1,7 @@
 import {Router, Request, Response} from 'express';
-import Order from '../models/order-model'
+import auth from '../middlewares/auth.middleware'
+import Order from '../models/order.model'
+import {IRequestWithUser} from '../middlewares/user.middleware';
 
 const router = Router();
 
@@ -17,12 +19,15 @@ const computePrice = (courses: any) => {
   return courses.reduce((acc: number, course: any) => acc + course.totalPrice, 0);
 };
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', auth, async (req: IRequestWithUser, res: Response) => {
   try {
     const orders = await Order
       .find({
-        userId: req.session.user._id,
-      }).populate('courses.courseId').populate('userId').exec();
+        userId: req.user._id,
+      })
+      .populate('courses.courseId')
+      .populate('userId')
+      .exec();
 
     res.render('orders',{
       title: 'Orders',
@@ -44,9 +49,9 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', auth, async (req: IRequestWithUser, res: Response) => {
   try {
-    const user = await req.session.user
+    const user = await req.user
       .populate('cart.items.courseId')
       .execPopulate();
 
@@ -56,7 +61,7 @@ router.post('/', async (req: Request, res: Response) => {
     }));
 
     const order = new Order({
-      userId: req.session.user,
+      userId: req.user,
       courses,
     });
 

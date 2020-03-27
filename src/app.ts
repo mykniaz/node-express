@@ -1,5 +1,6 @@
 import * as path from 'path';
-import env from './config'
+import env from './env'
+
 // Express
 import * as express from 'express';
 import * as ExpressHandlebars from 'express-handlebars';
@@ -7,15 +8,16 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
 // Middleware
-import authMiddleware from './middlewares/auth.middleware'
+import varMiddleware from './middlewares/variables.middleware'
+import userMiddleware from './middlewares/user.middleware'
 
 // Routes
-import homeRoutes from './routes/home-router';
-import authRouter from './routes/auth-router';
-import addRoutes from './routes/add-router';
-import coursesRoutes from './routes/courses-router';
-import cartRoutes from './routes/cart-router';
-import ordersRoutes from './routes/orders-router';
+import addRoutes from './routes/add.router';
+import homeRoutes from './routes/home.router';
+import authRouter from './routes/auth.router';
+import cartRoutes from './routes/cart.router';
+import coursesRoutes from './routes/courses.router';
+import ordersRoutes from './routes/orders.router';
 
 const app: express.Application = express();
 
@@ -48,7 +50,8 @@ app.use(session({
   store,
 }));
 
-app.use(authMiddleware);
+app.use(varMiddleware);
+app.use(userMiddleware);
 
 app.use(express.urlencoded({
   extended: true,

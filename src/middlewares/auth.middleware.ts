@@ -1,7 +1,10 @@
-import {Request, Response, NextFunction} from 'express';
+import {Response, NextFunction} from 'express';
+import {IRequestWithUser} from './user.middleware';
 
-export default function(req: Request, res: Response, next: NextFunction) {
-  res.locals.isAuthenticated = req.session.isAuthenticated;
+export default function(req: IRequestWithUser, res: Response, next: NextFunction) {
+  if (!req.session.isAuthenticated) {
+    return res.redirect('/auth#login')
+  }
 
   next();
 }

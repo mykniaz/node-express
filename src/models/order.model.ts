@@ -1,11 +1,11 @@
 import {Schema, model, Document} from 'mongoose';
-import {ICourseModel} from './course-model';
+import {ICourseDocument} from './course.model';
 
-export interface IOrderModel extends Document {
+export interface IOrderDocument extends Document {
   userId: any;
   courses: Array<{
     count: number;
-    courseId: ICourseModel | string;
+    courseId: ICourseDocument | string;
   }>
 }
 
@@ -31,4 +31,4 @@ const orderSchema = new Schema({
   ]
 });
 
-export default model<IOrderModel>('Order', orderSchema);
+export default model<IOrderDocument>('Order', orderSchema);

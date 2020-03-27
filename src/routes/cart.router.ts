@@ -1,11 +1,13 @@
-import {Router, Request, Response} from 'express';
-import Course, {ICourseModel} from '../models/course-model';
-import {IUserModel} from '../models/user-model';
+import {Router, Response} from 'express';
+import Course, {ICourseDocument} from '../models/course.model';
+import {IUserDocument} from '../models/user.model';
+import auth from '../middlewares/auth.middleware'
+import {IRequestWithUser} from '../middlewares/user.middleware';
 
 const router = Router();
 
 const mapCartItems = (cart: any) => {
-  return cart.items.map((course: {count: number, courseId: ICourseModel}) => ({
+  return cart.items.map((course: {count: number, courseId: ICourseDocument}) => ({
     count: course.count,
     id: course.courseId._id,
     title: course.courseId.title,
@@ -18,8 +20,8 @@ const computePrice = (courses: Array<any>) => {
   return courses.reduce((acc, course) => acc + course.totalPrice, 0);
 };
 
-router.get('/', async (req: Request, res: Response) => {
-  let user: IUserModel = req.session.user;
+router.get('/', auth, async (req: IRequestWithUser, res: Response) => {
+  let user: IUserDocument = req.user;
 
   user = await user
     .populate('cart.items.courseId')
@@ -35,10 +37,10 @@ router.get('/', async (req: Request, res: Response) => {
   })
 });
 
-router.delete('/remove/:id', async (req: Request, res: Response) => {
-  await req.session.user.removeFromCart(req.params.id);
+router.delete('/remove/:id', auth, async (req: IRequestWithUser, res: Response) => {
+  await req.user.removeFromCart(req.params.id);
 
-  const user = await req.session.user
+  const user = await req.user
     .populate('cart.items.courseId')
     .execPopulate();
 
@@ -51,10 +53,10 @@ router.delete('/remove/:id', async (req: Request, res: Response) => {
   res.status(200).json(cart);
 });
 
-router.post('/add', async (req: Request, res: Response) => {
+router.post('/add', auth, async (req: IRequestWithUser, res: Response) => {
   const course = await Course.findById(req.body.id);
 
-  await req.session.user.addToCart(course);
+  await req.user.addToCart(course);
 
   res.redirect('/courses');
 });

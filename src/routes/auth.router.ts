@@ -1,8 +1,7 @@
-import {Request, Response, Router} from 'express';
-import User, {IUserModel} from '../models/user-model'
+import {Router, Request, Response} from 'express';
+import User, {IUserDocument} from '../models/user.model'
 
-// @ts-ignore
-const router: Router = new Router();
+const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
   res.render('auth/index', {
@@ -15,7 +14,7 @@ router.post('/login', async (req: Request, res: Response) => {
   const formData = req.body;
 
   try {
-    const user: IUserModel = await User.findById('5e79e8d97fd1573fe46d1f5d');
+    const user: IUserDocument = await User.findById('5e79e8d97fd1573fe46d1f5d');
 
     req.session.user = user;
     req.session.isAuthenticated = true;
@@ -28,7 +27,7 @@ router.post('/login', async (req: Request, res: Response) => {
       }
     }))
   } catch (e) {
-    console.error()
+    console.error(e);
     res.redirect('/auth#login')
   }
 

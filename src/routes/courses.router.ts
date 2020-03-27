@@ -1,6 +1,8 @@
 import {Router} from 'express';
 
-import Course from "../models/course-model";
+import auth from '../middlewares/auth.middleware';
+
+import Course from "../models/course.model";
 
 const router = Router();
 
@@ -15,7 +17,7 @@ router.get('/', async (req, res) => {
   });
 });
 
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', auth, async (req, res) => {
   if (!req.query.allow) {
     res.redirect('/');
 
@@ -31,7 +33,7 @@ router.get('/:id/edit', async (req, res) => {
   });
 });
 
-router.post('/edit', async (req, res) => {
+router.post('/edit', auth, async (req, res) => {
   if (!req.query.allow) {
     res.redirect('/');
 
@@ -45,7 +47,7 @@ router.post('/edit', async (req, res) => {
   res.redirect(`/courses/${id}`);
 });
 
-router.post('/remove', async (req, res) => {
+router.post('/remove', auth, async (req, res) => {
   if (!req.query.allow) {
     res.redirect('/');
 

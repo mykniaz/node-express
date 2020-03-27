@@ -1,11 +1,11 @@
 import {Schema, model, Document} from 'mongoose';
-import {IUserModel} from './user-model';
+import {IUserDocument} from './user.model';
 
-export interface ICourseModel extends Document {
+export interface ICourseDocument extends Document {
   title: string,
   price: number,
   img: string,
-  userId: IUserModel | string,
+  userId: IUserDocument | string,
 }
 
 const courseSchema = new Schema({
@@ -37,4 +37,4 @@ courseSchema.method('toClient', function () {
   return course;
 });
 
-export default model<ICourseModel>('Course', courseSchema);
+export default model<ICourseDocument>('Course', courseSchema);

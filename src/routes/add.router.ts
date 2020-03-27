@@ -1,22 +1,26 @@
 import {Request, Response, Router} from 'express';
-import Course from '../models/course-model';
+
+import auth from '../middlewares/auth.middleware'
+
+import Course from '../models/course.model';
+import {IRequestWithUser} from '../middlewares/user.middleware';
 
 const router = Router();
 
-router.get('/', (req: Request, res: Response) => {
+router.get('/', auth, (req: Request, res: Response) => {
   res.render('add',{
     title: 'Add course',
     isAdd: true,
   });
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', auth, async (req: IRequestWithUser, res: Response) => {
   const {title, price, img} = req.body;
   const course = new Course({
     title,
     price,
     img,
-    userId: req.session.user._id,
+    userId: req.user._id,
   });
 
   try {

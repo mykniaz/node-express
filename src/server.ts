@@ -1,10 +1,10 @@
-import env from './config'
+import env from './env'
 
 import app from './app';
 import * as mongoose from 'mongoose'
 
 // Models
-import User from './models/user-model';
+import User from './models/user.model';
 
 const PORT = env.PORT || 3000;
 

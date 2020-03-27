@@ -1,15 +1,18 @@
 import { Schema, model, Document} from 'mongoose';
-import {ICourseModel} from './course-model';
+import {ICourseDocument} from './course.model';
 
-export interface IUserModel extends Document {
+export interface IUserDocument extends Document {
   email: string;
   name: string;
   cart: {
     items: Array<{
       count: number;
-      courseId: ICourseModel | string;
+      courseId: ICourseDocument | string;
     }>
   }
+  addToCart(course: ICourseDocument): IUserDocument
+  removeFromCart(id: string): IUserDocument
+  clearCart(): IUserDocument
 }
 
 const userSchema = new Schema({
@@ -39,7 +42,7 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.methods.addToCart = function (course: ICourseModel) {
+userSchema.method('addToCart', function (course: ICourseDocument) {
   const items = [...this.cart.items];
 
   const index = items.findIndex(item => {
@@ -58,7 +61,7 @@ userSchema.methods.addToCart = function (course: ICourseModel) {
   this.cart = {items};
 
   return this.save();
-};
+});
 
 userSchema.methods.removeFromCart = function (id: string) {
   let items = [...this.cart.items];
@@ -84,4 +87,4 @@ userSchema.methods.clearCart = function () {
   return this.save();
 };
 
-export default model<IUserModel>('User', userSchema);
+export default model<IUserDocument>('User', userSchema);
