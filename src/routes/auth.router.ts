@@ -11,10 +11,13 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 router.post('/login', async (req: Request, res: Response) => {
-  const formData = req.body;
+  const {email, password} = req.body;
 
   try {
-    const user: IUserDocument = await User.findById('5e79e8d97fd1573fe46d1f5d');
+    const user: IUserDocument = await User.findOne({
+      email,
+      password,
+    });
 
     req.session.user = user;
     req.session.isAuthenticated = true;
@@ -30,20 +33,39 @@ router.post('/login', async (req: Request, res: Response) => {
     console.error(e);
     res.redirect('/auth#login')
   }
-
-  console.log(formData);
 });
 
 router.post('/logout', async (req: Request, res: Response) => {
-  req.session.destroy(() => {res.redirect('/auth#logout')});
+  req.session.destroy(() => {res.redirect('/auth#login')});
 });
 
 router.post('/register', async (req: Request, res: Response) => {
-  const formData = req.body;
+  try {
+    const {
+      name,
+      email,
+      password,
+      confirm,
+    } = req.body;
 
-  console.log(formData);
+    if (password !== confirm) {
+      return res.redirect('/auth#register')
+    }
 
-  res.redirect('/auth#login')
+    const candidate = await User.findOne({email})
+
+    if (candidate) {
+      return res.redirect('/auth#register')
+    }
+
+    const user = new User;
+
+    await user.register({name, email, password});
+
+    res.redirect('/auth#login')
+  } catch (e) {
+    console.error(e)
+  }
 });
 
 export default router;

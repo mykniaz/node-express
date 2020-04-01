@@ -1,26 +1,45 @@
 import { Schema, model, Document} from 'mongoose';
 import {ICourseDocument} from './course.model';
 
-export interface IUserDocument extends Document {
-  email: string;
-  name: string;
-  cart: {
-    items: Array<{
-      count: number;
-      courseId: ICourseDocument | string;
-    }>
-  }
-  addToCart(course: ICourseDocument): IUserDocument
-  removeFromCart(id: string): IUserDocument
-  clearCart(): IUserDocument
+export type RegisterData = {
+  name: string
+  email: string,
+  password: string,
 }
 
-const userSchema = new Schema({
+type UserCart = {
+  items: Array<{
+    count: number;
+    courseId: ICourseDocument | string;
+  }>
+}
+
+interface IUser {
+  email: string;
+  name: string;
+  password?: string;
+  cart: UserCart
+}
+
+interface IUserMethods {
+  register(registerData: RegisterData): IUserDocument;
+  addToCart(course: ICourseDocument): IUserDocument;
+  removeFromCart(id: string): IUserDocument;
+  clearCart(): IUserDocument;
+}
+
+export interface IUserDocument extends IUser, IUserMethods, Document {}
+
+const userSchema: Schema<IUserMethods> = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
   },
-  name: {
+  password: {
     type: String,
     required: true,
   },
@@ -40,6 +59,17 @@ const userSchema = new Schema({
       },
     ],
   },
+});
+
+userSchema.method('register', function (registerData: RegisterData) {
+  const {name, email, password} = registerData;
+
+  this.name = name;
+  this.email = email;
+  this.password = password;
+  this.cart = {items: []};
+
+  return this.save()
 });
 
 userSchema.method('addToCart', function (course: ICourseDocument) {
@@ -63,7 +93,7 @@ userSchema.method('addToCart', function (course: ICourseDocument) {
   return this.save();
 });
 
-userSchema.methods.removeFromCart = function (id: string) {
+userSchema.method('removeFromCart', function (id: string) {
   let items = [...this.cart.items];
 
   const index = items.findIndex(item => {
@@ -79,12 +109,12 @@ userSchema.methods.removeFromCart = function (id: string) {
   this.cart = {items};
 
   return this.save();
-};
+});
 
-userSchema.methods.clearCart = function () {
+userSchema.method('clearCart',function () {
   this.cart = {items: []};
 
   return this.save();
-};
+});
 
 export default model<IUserDocument>('User', userSchema);

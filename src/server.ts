@@ -3,9 +3,6 @@ import env from './env'
 import app from './app';
 import * as mongoose from 'mongoose'
 
-// Models
-import User from './models/user.model';
-
 const PORT = env.PORT || 3000;
 
 async function connect(str: string) {
@@ -17,18 +14,6 @@ async function connect(str: string) {
     });
   } catch (e) {
     throw e;
-  }
-
-  const candidate = await User.findOne();
-
-  if (!candidate) {
-    const user = new User({
-      email: 'admin@gmail.com',
-      name: 'admin',
-      cart: {items: []},
-    });
-
-    await user.save()
   }
 }
 
