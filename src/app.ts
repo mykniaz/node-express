@@ -4,6 +4,7 @@ import env from './env'
 // Express
 import * as express from 'express';
 import * as ExpressHandlebars from 'express-handlebars';
+import * as csrf from 'csurf';
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
@@ -43,19 +44,19 @@ const store = new MongoDBStore({
   uri: env.DB_URI,
 });
 
-app.use(session({
-  secret: 'secret value',
-  resave: false,
-  saveUninitialized: false,
-  store,
-}));
-
-app.use(varMiddleware);
-app.use(userMiddleware);
-
 app.use(express.urlencoded({
   extended: true,
 }));
+
+app.use(session({
+  secret: 'some secret value',
+  resave: false,
+  saveUninitialized: false,
+  store
+}));
+app.use(csrf());
+app.use(varMiddleware);
+app.use(userMiddleware);
 
 app.use('/', homeRoutes);
 app.use('/auth', authRouter);

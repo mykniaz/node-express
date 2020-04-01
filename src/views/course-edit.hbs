@@ -5,6 +5,7 @@
 </div>
 <div class="row">
 	<form action="/courses/edit?allow=true" method="post" class="col s12">
+		<input type="hidden" name="_csrf" value="{{csrf}}">
 		<input type="hidden" name="id" value="{{course.id}}">
 		<div class="row">
 			<div class="input-field col s12">
@@ -47,6 +48,7 @@
 </div>
 <div class="row">
 	<form action="/courses/remove?allow=true" method="post" class="col s12">
+		<input type="hidden" name="_csrf" value="{{csrf}}">
 		<input type="hidden" name="id" value="{{course.id}}">
 		<button class="btn btn-primary" type="submit">Remove</button>
 	</form>

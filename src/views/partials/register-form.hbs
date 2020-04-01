@@ -1,6 +1,7 @@
 <form class="col s12"
 			action="/auth/register"
 			method="post">
+	<input type="hidden" name="_csrf" value="{{csrf}}">
 	<div class="row">
 		<div class="input-field col s12">
 			<input id="reg_first_name"

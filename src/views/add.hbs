@@ -5,6 +5,7 @@
 </div>
 <div class="row">
 	<form action="/add" method="post" class="col s12">
+		<input type="hidden" name="_csrf" value="{{csrf}}">
 		<div class="row">
 			<div class="input-field col s12">
 				<input id="title" name="title" type="text" class="validate" required>

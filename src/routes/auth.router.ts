@@ -1,5 +1,6 @@
 import {Router, Request, Response} from 'express';
-import User, {IUserDocument} from '../models/user.model'
+import User, {IUserDocument} from '../models/user.model';
+import {hash, compare} from 'bcryptjs';
 
 const router = Router();
 
@@ -11,27 +12,33 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 router.post('/login', async (req: Request, res: Response) => {
-  const {email, password} = req.body;
-
   try {
-    const user: IUserDocument = await User.findOne({
-      email,
-      password,
-    });
+    const {email, password} = req.body;
 
-    req.session.user = user;
-    req.session.isAuthenticated = true;
+    const user: IUserDocument = await User.findOne({email});
 
-    await req.session.save((err => {
-      if (err) {
-        throw err
-      } else {
-        res.redirect('/')
-      }
-    }))
+    if (!user) {
+      res.redirect('/auth#login')
+    }
+
+    const isSame = await compare(password, user.password);
+
+    if (isSame) {
+      req.session.user = user;
+      req.session.isAuthenticated = true;
+
+      await req.session.save((err => {
+        if (err) {
+          throw err
+        } else {
+          res.redirect('/')
+        }
+      }))
+    } else {
+      res.redirect('/auth#login')
+    }
   } catch (e) {
     console.error(e);
-    res.redirect('/auth#login')
   }
 });
 
@@ -60,7 +67,9 @@ router.post('/register', async (req: Request, res: Response) => {
 
     const user = new User;
 
-    await user.register({name, email, password});
+    const hashPassword = await hash(password, 10);
+
+    await user.register({name, email, password: hashPassword});
 
     res.redirect('/auth#login')
   } catch (e) {

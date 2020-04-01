@@ -39,6 +39,7 @@
 				</strong>
 			</p>
 			<form action="/orders" method="post">
+				<input type="hidden" name="_csrf" value="{{csrf}}">
 				<button type="submit">Add Order</button>
 			</form>
 		{{else}}
