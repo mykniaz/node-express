@@ -5,6 +5,7 @@ import env from './env'
 import * as express from 'express';
 import * as ExpressHandlebars from 'express-handlebars';
 import * as csrf from 'csurf';
+const flash = require('connect-flash');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
@@ -47,7 +48,6 @@ const store = new MongoDBStore({
 app.use(express.urlencoded({
   extended: true,
 }));
-
 app.use(session({
   secret: 'some secret value',
   resave: false,
@@ -57,6 +57,7 @@ app.use(session({
 app.use(csrf());
 app.use(varMiddleware);
 app.use(userMiddleware);
+app.use(flash());
 
 app.use('/', homeRoutes);
 app.use('/auth', authRouter);
